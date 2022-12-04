@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+/* 기본 설정: 페이지 전체 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: rgba(235, 223, 200, 1);
+}
+
+.header_container {
+    align-items: center;
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+.logo_container {
+    margin: 0px 10px;
+    display: inline;
+}
+
+.logo_container a {
+    font-size: 50px;
+    font-weight: 800;
+    text-decoration: none;
+    text-align: center;
+    color: rgba(0,0,0,1);
+}
+
+.main_text{
+	font-size: 50px;
+    font-weight: 800;
+    text-decoration: none;
+    text-align: center;
+    color: rgba(0,0,0,1);
+}
+
+.nav_container {
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu_container {
+	display: block;
+    align-content: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
+.menu_container .menu, .login {
+	display: block;
+    list-style: none;
+    display: flex;
+}
+
+.menu_1, .menu_2, .menu_3{
+	display: block;
+	margin: 0px auto;
+}
+
+.menu_title {
+    display: block;
+    margin: 10px;
+    font-size: 20px;
+    text-decoration: none;
+    color: rgba(0,0,0,1);
+}
+
+.menu_index {
+    display: block;
+    margin: 10px 0;
+    padding: 0 15px;
+    text-decoration: none;
+    color: rgba(0,0,0,1);
+}
+
+.menu_1, .menu_2, .menu_3 {
+    display: block;
+    cursor: pointer;
+    padding: 0 30px;
+}
+
+.menu_1_content, .menu_2_content, .menu_3_content {
+    display: none;
+    list-style: none;
+    font-size: 15px;
+    position: absolute;
+    z-index: 10;
+    border-radius: 5px;
+    background-color: rgba(235, 223, 200, 1);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
+}
+
+.login_container {
+    align-content: flex-end;
+    margin-right: 10px;
+    float: right;
+}
+
+.footer_container {
+    padding-top: 35px;
+    padding-bottom: 35px;
+    display: block;
+    cursor: default;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgba(25, 25, 25, 1);
+}
+
+.footer_container .footA {
+    font-size: 25px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.footer_container .footB {
+    font-size: 15px;
+}
+
+.conB{
+	margin-bottom: 100px;
+}
