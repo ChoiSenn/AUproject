@@ -11,6 +11,7 @@
 
     <!--          link 선언          -->
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/style_index.css">
 
     <!--          script 선언          -->
@@ -32,21 +33,8 @@
             </div>
             <div class="login_container">
                 <ul class="login">
-					<%
-					    String userID = String.valueOf(session.getAttribute("userID"));
-					 
-					    if(userID == "null"){  // 세션 없으면 로그인/회원가입 메뉴
-					%>
-					    <li class="menu_login"><a class="menu_title" href="./login.jsp">로그인</a></li>
-                    	<li class="menu_join"><a class="menu_title" href="./signup.jsp">회원가입</a></li>
-					<%	
-					    } else{  // 세션 연결되어 있으면 로그아웃 메뉴
-					%>
-						<li class="menu_logout"><a class="menu_title" href="./logout.jsp">로그아웃</a></li>
-					<%
-					    }
-					%>
-                    
+                    <li class="menu_login"><a class="menu_title" href="./login.jsp">로그인</a></li>
+                    <li class="menu_join"><a class="menu_title" href="./signup.jsp">회원가입</a></li>
                 </ul>
             </div>
             <div class="nav_container" id="nav_menu">
@@ -55,17 +43,17 @@
                         <li class="menu_1">
                             <a class="menu_title">안산대학교</a>
                             <ul class="menu_1_content">
-                                <li><a class="menu_index" href="./menu.jsp">오늘의 메뉴</a></li>
-                                <li><a class="menu_index" href="./topic.jsp">오늘의 토픽</a></li>
-                                <li><a class="menu_index" href="https://www.ansan.ac.kr/www/main">홈페이지 바로가기</a></li>
+                                <li><a class="menu_index" href="#">오늘의 메뉴</a></li>
+                                <li><a class="menu_index" href="#">오늘의 토픽</a></li>
+                                <li><a class="menu_index" href="#">홈페이지 바로가기</a></li>
                             </ul>
                         </li>
                         <li class="menu_2">
                             <a class="menu_title">컴퓨터공학과 관리</a>
                             <ul class="menu_2_content">
-                                <li><a class="menu_index" href="./check.jsp">출석 체크</a></li>
+                                <li><a class="menu_index" href="#">출석 체크</a></li>
                                 <li><a class="menu_index" href="./userDB.jsp">출석 확인</a></li>
-                                <li><a class="menu_index" href="./calender.jsp">시간표</a></li>
+                                <li><a class="menu_index" href="#">시간표</a></li>
                             </ul>
                         </li>
                         <li class="menu_3">
@@ -82,41 +70,19 @@
         </div>
     </header>
 
-    <div class="main_container">
-        <div class="conB">
-            <div class="conB_title">
-                <h3>About</h3>
+    <div class="login_containers">
+        <h2>로그인</h2>
+        <form method="post" action="./login_Action.jsp">
+            <h3>아이디</h3>
+            <div class="loginID">
+                <input type="text" class="input" placeholder="아이디" name="userID" maxlength="20">
             </div>
-            <div class="conB_container">
-                <div class="conB_small_container">
-                    <div class="conB_icon">
-                        <i class="fas fa-code icon"></i>
-                    </div>
-                    <div class="conB_content">
-                        <h3>AU Project</h3>
-                        <p>Index 1</p>
-                    </div>
-                </div>
-                <div class="conB_small_container">
-                    <div class="conB_icon">
-                        <i class="fas fa-cogs icon"></i>
-                    </div>
-                    <div class="conB_content">
-                        <h3>Title 2</h3>
-                        <p>Index 2</p>
-                    </div>
-                </div>
-                <div class="conB_small_container">
-                    <div class="conB_icon">
-                        <i class="fas fa-plane icon"></i>
-                    </div>
-                    <div class="conB_content">
-                        <h3>Title 3</h3>
-                        <p>Index 3</p>
-                    </div>
-                </div>
+            <h3>비밀번호</h3>
+            <div class="loginPassword">
+                <input type="password" class="input" placeholder="비밀번호" name="userPassword" maxlength="20">
             </div>
-        </div>
+            <input type="submit" class="bt_login" value="로그인">
+        </form>
     </div>
 
     <footer>
