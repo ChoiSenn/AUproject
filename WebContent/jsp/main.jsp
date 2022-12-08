@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="user.UserDB" %>
+<%@ page import="java.util.ArrayList" %>
 
 <!DOCTYPE html>
 
@@ -16,11 +18,49 @@
     <!--          script 선언          -->
     <script src="https://kit.fontawesome.com/e1bd1cb2a5.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    
+    <script>
+    	window.onload=function(){
+	        var typingBool = false; 
+		    var typingIdx=0; 
+		
+		    // 타이핑될 텍스트를 가져온다 
+		    var txt = $(".type-text").text().trim();
+		    var typingTxt = txt.split(' ');
+	
+		      let k = 0,
+		      j = 0;
+
+			  const textArray = typingTxt,
+			    speed = 100,
+			    target = document.getElementById("text");
+		
+			  function txtnum() {
+			    j == textArray.length - 1
+			    ? j = 0
+			    : j++
+			  }
+		
+			  function type() {
+			    k < textArray[j].length
+			    ? (target.innerHTML += textArray[j].charAt(k), k++, setTimeout(type, speed))
+			    : remove()
+			  }
+		
+			  function remove() {
+			    0 <= k
+			    ? (target.innerHTML = target.innerHTML.slice(0, k), k--, setTimeout(remove, speed))
+			    : (type(), txtnum())
+			  }
+	
+			  type();
+	    	}	
+    </script>
 
     <script src="../js/script.js"></script>
 
     <title>
-        MAIN
+        AU
     </title>
 </head>
 
@@ -28,7 +68,7 @@
     <header>
         <div class="header_container">
             <div class="logo_container">
-                <a href="./main.jsp" class="main_text">AU Project</a>
+                <a href="./main.jsp" class="main_text" onClick="test()">AU Project</a>
             </div>
             <div class="login_container">
                 <ul class="login">
@@ -63,7 +103,19 @@
                         <li class="menu_2">
                             <a class="menu_title">컴퓨터공학과 관리</a>
                             <ul class="menu_2_content">
-                                <li><a class="menu_index" href="./check.jsp">출석 체크</a></li>
+                                <li><a class="menu_index" 
+                                <%
+								    if(userID == "null"){  // 세션 없으면 차단
+								%>
+                                href="./x.jsp"
+                                <%	
+								    } else{  // 세션 연결되어 있으면 출석 체크 가능
+								%>
+								href="./check.jsp"
+								<%
+								    }
+								%>
+                                >출석 체크</a></li>
                                 <li><a class="menu_index" href="./userDB.jsp">출석 확인</a></li>
                                 <li><a class="menu_index" href="./calender.jsp">시간표</a></li>
                             </ul>
@@ -94,7 +146,7 @@
                     </div>
                     <div class="conB_content">
                         <h3>AU Project</h3>
-                        <p>Index 1</p>
+                        <p>안산대학교</p>
                     </div>
                 </div>
                 <div class="conB_small_container">
@@ -102,8 +154,24 @@
                         <i class="fas fa-cogs icon"></i>
                     </div>
                     <div class="conB_content">
-                        <h3>Title 2</h3>
-                        <p>Index 2</p>
+                        <h3>학우들</h3>
+                        <p class="type-text" style="display: none">
+	                        <%
+		                        UserDB userDB = new UserDB();
+								ArrayList<String> users = new ArrayList<String>();
+								users = userDB.getUserNameList();
+								String txt = "";
+								
+								for(String user:users){
+									txt += user;
+									txt += " ";
+								}
+	                        %>
+	                        <%=txt%>
+                        </p>
+                        <p id="text">
+	                        
+                        </p>
                     </div>
                 </div>
                 <div class="conB_small_container">
@@ -111,8 +179,8 @@
                         <i class="fas fa-plane icon"></i>
                     </div>
                     <div class="conB_content">
-                        <h3>Title 3</h3>
-                        <p>Index 3</p>
+                        <h3>Made with</h3>
+                        <p>Tomcat + JSP + MySQL</p>
                     </div>
                 </div>
             </div>
@@ -132,3 +200,4 @@
 </body>
 
 </html>
+<body>

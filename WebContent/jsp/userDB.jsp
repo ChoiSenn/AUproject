@@ -1,45 +1,146 @@
-<%@ page contentType="text/html; charset=euc-kr" language="java" %>
-<%@ page import="java.sql.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="user.UserDB" %>
+<%@ page import="java.util.ArrayList" %>
 
-<%
- Connection con = null;
- PreparedStatement pstmt = null;
- ResultSet rs = null;
+<!DOCTYPE html>
 
- try {
-  String DB_SERVER = "localhost:3306";  // MySQL ¼³Ä¡½Ã µî·ÏÇÑ Æ÷Æ®·Î ¼öÁ¤ÇÊ¿ä
-  String DB_USERNAME = "root";          // MySQL ¼³Ä¡½Ã µî·ÏÇÑ user ·Î ¼öÁ¤ÇÊ¿ä
-  String DB_PASSWORD = "123456";   // MySQL ¼³Ä¡½Ã µî·ÏÇÑ user ·Î ¼öÁ¤ÇÊ¿ä
-  String DB_DATABASE = "AUproject";       // db Å×½ºÆ® ¶§ »ı¼ºÇÑ db ·Î ¼öÁ¤ ÇÊ¿ä
-  String DB_TABLE = "user";          // db Å×½ºÆ® ¶§ »ı¼ºÇÑ table ·Î ¼öÁ¤ÇÊ¿ä
+<html lang="ko">
 
-  String jdbcUrl = "jdbc:mysql://" + DB_SERVER + "/" + DB_DATABASE;
+<head>
+    <!--          meta ì„ ì–¸          -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  Class.forName("com.mysql.jdbc.Driver");
-  con = DriverManager.getConnection(jdbcUrl, DB_USERNAME, DB_PASSWORD);
-  %>
+    <!--          link ì„ ì–¸          -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_index.css">
+    <link rel="stylesheet" href="../css/check.css">
 
- <h1>Database ¿¬°á Å×½ºÆ®</h1>
-  Database ¿¬°á ¼º°ø<br>
-  <%
-  
-  String query = "select * from "+DB_TABLE;
-  pstmt=con.prepareStatement(query);
-  rs=pstmt.executeQuery();
+    <!--          script ì„ ì–¸          -->
+    <script src="https://kit.fontawesome.com/e1bd1cb2a5.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
-  int count=0;
-  while(rs.next()) {
-   
-   String number=rs.getString("id");
-   String name = rs.getString("name");
-   %>
-   <p>[<%=count%>] number : <%=number%>, name : <%=name%></p>
-   <%
-   count++;
-  }
-  
- } catch(Exception e) {
-  e.printStackTrace();
-  out.println("Fail");
- }
-%>
+    <script src="../js/script.js"></script>
+
+    <title>
+        AU
+    </title>
+</head>
+
+<body>
+    <header>
+        <div class="header_container">
+            <div class="logo_container">
+                <a href="./main.jsp" class="main_text">AU Project</a>
+            </div>
+            <div class="login_container">
+                <ul class="login">
+					<%
+					    String userID = String.valueOf(session.getAttribute("userID"));
+					 
+					    if(userID == "null"){  // ì„¸ì…˜ ì—†ìœ¼ë©´ ë¡œê·¸ì¸/íšŒì›ê°€ì… ë©”ë‰´
+					%>
+					    <li class="menu_login"><a class="menu_title" href="./login.jsp">ë¡œê·¸ì¸</a></li>
+                    	<li class="menu_join"><a class="menu_title" href="./signup.jsp">íšŒì›ê°€ì…</a></li>
+					<%	
+					    } else{  // ì„¸ì…˜ ì—°ê²°ë˜ì–´ ìˆìœ¼ë©´ ë¡œê·¸ì•„ì›ƒ ë©”ë‰´
+					%>
+						<li class="menu_logout"><a class="menu_title" href="./logout.jsp">ë¡œê·¸ì•„ì›ƒ</a></li>
+					<%
+					    }
+					%>
+                    
+                </ul>
+            </div>
+            <div class="nav_container" id="nav_menu">
+                <div class="menu_container">
+                    <ul class="menu">
+                        <li class="menu_1">
+                            <a class="menu_title">ì•ˆì‚°ëŒ€í•™êµ</a>
+                            <ul class="menu_1_content">
+                                <li><a class="menu_index" href="./menu.jsp">ì˜¤ëŠ˜ì˜ ë©”ë‰´</a></li>
+                                <li><a class="menu_index" href="./topic.jsp">ì˜¤ëŠ˜ì˜ í† í”½</a></li>
+                                <li><a class="menu_index" href="https://www.ansan.ac.kr/www/main">í™ˆí˜ì´ì§€ ë°”ë¡œê°€ê¸°</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu_2">
+                            <a class="menu_title">ì»´í“¨í„°ê³µí•™ê³¼ ê´€ë¦¬</a>
+                            <ul class="menu_2_content">
+                                <li><a class="menu_index" 
+                                <%
+								    if(userID == "null"){  // ì„¸ì…˜ ì—†ìœ¼ë©´ ì°¨ë‹¨
+								%>
+                                href="./x.jsp"
+                                <%	
+								    } else{  // ì„¸ì…˜ ì—°ê²°ë˜ì–´ ìˆìœ¼ë©´ ì¶œì„ ì²´í¬ ê°€ëŠ¥
+								%>
+								href="./check.jsp"
+								<%
+								    }
+								%>
+                                >ì¶œì„ ì²´í¬</a></li>
+                                <li><a class="menu_index" href="./userDB.jsp">ì¶œì„ í™•ì¸</a></li>
+                                <li><a class="menu_index" href="./calender.jsp">ì‹œê°„í‘œ</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu_3">
+                            <a class="menu_title">ë­ë„£ì§€</a>
+                            <ul class="menu_3_content">
+                                <li><a class="menu_index" href="#">ã…‡</a></li>
+                                <li><a class="menu_index" href="#">ã…‡</a></li>
+                                <li><a class="menu_index" href="#">ã…‡</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main_container">
+        <table class = "table table-striped">
+        	<thead>
+	        	<tr>
+	        		<th>í•™ë²ˆ</th>
+	        		<th>ì´ë¦„</th>
+	        		<th>ì¶œì„ ì—¬ë¶€</th>
+	        	</tr>
+        	</thead>
+        	<tbody>
+        		<tr>
+	        		<%
+	        			UserDB userDB = new UserDB();
+	        			ArrayList<UserDB> users = new ArrayList<UserDB>();
+	        			users = userDB.getUserAll();
+	        			
+	        			for (int i = 0; i <= users.size()-1; i++){
+	        		%>
+	        		<form method="post" action="./check_action.jsp">
+	        			<td>
+	        			<%=users.get(i).getUserID()%>
+	        			</td>
+	        			<td>
+	        			<%=users.get(i).getUserName()%>
+	        			</td>
+	        			<td>
+	        			<%=users.get(i).getUserAttend()%>
+	        			</td>
+	        		</form>
+	        		</tr>
+	        		<%}%>
+        	</tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="footer_container">
+            <div class="footA">
+                202251509 ìµœì„¸ì€
+            </div>
+            <div class="footB">
+                Copyright Â© CS All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

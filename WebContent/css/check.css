@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+.main_container{
+	align-items: center;
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+th{
+	background-color: rgba(242, 242, 242, 1);
+}
+
+th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+}
+
+td{
+	text-align: center;
+}

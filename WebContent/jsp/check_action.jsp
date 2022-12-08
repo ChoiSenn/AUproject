@@ -16,13 +16,16 @@
     
     <body>
     	<%
-    		session = request.getSession();
-    		session.invalidate();  // 세션 날림
-    	
+    		String userID = request.getParameter("userID");
+    		
+    		UserDB userDB = new UserDB();
+    		userDB.setUserID(userID);
+    		userDB.checkAttend(userID);
+    		
     		PrintWriter script = response.getWriter();
         	script.println("<script>");
-        	script.println("alert('로그아웃 되었습니다.')");
-        	script.println("location.href = './main.jsp'");
+        	script.println("alert('"+ userID +"님, 출석 정상 처리되었습니다!')");
+        	script.println("location.href = './check.jsp'");
         	script.println("</script>");
     	%>
     </body>

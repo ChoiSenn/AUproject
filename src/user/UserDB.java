@@ -10,10 +10,11 @@ public class UserDB {
 	private String userID;
 	private String userName;
 	private String userPassword;
-	private String userAttend;
+	private boolean userAttend;
 	
 	private Connection con;
 	private ResultSet rs;
+	private int r;
 	
 	public UserDB() {
 		try {
@@ -99,7 +100,7 @@ public class UserDB {
 		}
 	}
 	
-	// 유저 데이터 가져오기
+	// 특정 유저 데이터 가져오기
 	public UserDB getUser(String userID) {
 		try {
 			PreparedStatement pst = con.prepareStatement("SELECT * FROM user WHERE id_num = ?");
@@ -110,9 +111,31 @@ public class UserDB {
 				userDB.setUserID(rs.getString(1));
 				userDB.setUserPassword(rs.getString(2));
 				userDB.setUserName(rs.getString(3));
-				userDB.setUserAttend(rs.getString(4));
+				userDB.setUserAttend(rs.getBoolean(4));
 				return userDB;
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// 모든 데이터 가져오기
+	public ArrayList<UserDB> getUserAll() {
+		try {
+			PreparedStatement pst = con.prepareStatement("SELECT * FROM user");
+			rs = pst.executeQuery();
+			ArrayList<UserDB> users = new ArrayList<UserDB>();
+			
+			while (rs.next()) {
+				UserDB userDB = new UserDB();
+				userDB.setUserName(rs.getString(2));
+				userDB.setUserID(rs.getString(3));
+				userDB.setUserPassword(rs.getString(4));
+				userDB.setUserAttend(rs.getBoolean(5));
+				users.add(userDB);
+			}
+			return users;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,10 +161,26 @@ public class UserDB {
 		this.userName = userName;
 	}
 	public String getUserAttend() {
-		return userAttend;
+		if(userAttend == false) {
+			return "X";
+		} else {
+			return "O";
+		}
 	}
-	public void setUserAttend(String userAttend) {
+	public void setUserAttend(boolean userAttend) {
 		this.userAttend = userAttend;
+	}
+	
+	public void checkAttend(String userID) {  // 유저 아이디로 해당 유저 출석 체크
+		try {
+			PreparedStatement pst = con.prepareStatement("UPDATE user SET attend=true WHERE id_num = ?");
+			pst.setString(1, userID);
+			r = pst.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return;
 	}
 	
 	public String getUserNamefromID(String userID) {  // 유저 아이디로 유저 이름 가져오기
@@ -152,6 +191,22 @@ public class UserDB {
 			if (rs.next()) {
 				return rs.getString(1);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public ArrayList<String> getUserNameList() {  // 유저 이름 리스트로 가져오기
+		try {
+			PreparedStatement pst = con.prepareStatement("SELECT name FROM user");
+			rs = pst.executeQuery();
+			
+			ArrayList<String> users = new ArrayList<String>();
+			while (rs.next()) {
+				users.add(rs.getString(1));
+			}
+			return users;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="user.UserDB" %>
+<%@ page import="java.util.ArrayList" %>
 
 <!DOCTYPE html>
 
@@ -11,8 +13,8 @@
 
     <!--          link 선언          -->
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/style_index.css">
+    <link rel="stylesheet" href="../css/check.css">
 
     <!--          script 선언          -->
     <script src="https://kit.fontawesome.com/e1bd1cb2a5.js"></script>
@@ -95,19 +97,40 @@
         </div>
     </header>
 
-    <div class="login_containers">
-        <h2>로그인</h2>
-        <form method="post" action="./login_Action.jsp">
-            <h3>아이디</h3>
-            <div class="loginID">
-                <input type="text" class="input" placeholder="아이디" name="userID" maxlength="20">
-            </div>
-            <h3>비밀번호</h3>
-            <div class="loginPassword">
-                <input type="password" class="input" placeholder="비밀번호" name="userPassword" maxlength="20">
-            </div>
-            <input type="submit" class="bt_login" value="로그인">
-        </form>
+    <div class="main_container">
+        <table class = "table table-striped">
+        	<thead>
+	        	<tr>
+	        		<th>학번</th>
+	        		<th>이름</th>
+	        		<th>출석</th>
+	        	</tr>
+        	</thead>
+        	<tbody>
+        		<tr>
+	        		<%
+	        			UserDB userDB = new UserDB();
+	        			ArrayList<UserDB> users = new ArrayList<UserDB>();
+	        			users = userDB.getUserAll();
+	        			
+	        			for (int i = 0; i <= users.size()-1; i++){
+	        		%>
+	        		<form method="post" action="./check_action.jsp">
+	        			<td>
+	        			<%=users.get(i).getUserID()%>
+	        			</td>
+	        			<td>
+	        			<%=users.get(i).getUserName()%>
+	        			</td>
+	        			<td>
+	        			<input type="hidden" name = "userID" value="<%=users.get(i).getUserID()%>">
+	        			<input type="submit" value="출석 체크">
+	        			</td>
+	        		</form>
+	        		</tr>
+	        		<%}%>
+        	</tbody>
+        </table>
     </div>
 
     <footer>
