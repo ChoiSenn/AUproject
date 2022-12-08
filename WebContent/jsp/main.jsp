@@ -54,7 +54,33 @@
 			  }
 	
 			  type();
-	    	}	
+			  
+			  const getJSON = function(url, callback) {
+				  const xhr = new XMLHttpRequest();
+				  xhr.open('GET', url, true);
+				  xhr.responseType = 'json';
+				  xhr.onload = function() {
+					  const status = xhr.status;
+					  if(status === 200) {
+						  callback(null, xhr.response);
+						  } else {
+							  callback(status, xhr.response);
+							  }
+					  };
+					  xhr.send();
+					  };
+					  
+					  getJSON('https://api.openweathermap.org/data/2.5/weather?lat=37.5666791&lon=126.9782914&appid=8ed3f5e8643b328ff969ccd466aacf34&units=metric',
+							  function(err, data) {
+						  if(err !== null) {
+							  alert('예상치 못한 오류 발생.' + err);
+							  } else {
+								  $(".temp").text(data.main.temp);
+								  $(".temp-min").text(data.main.temp_min);
+								  $(".temp-max").text(data.main.temp_max);
+							  }
+						  });
+					  }
     </script>
 
     <script src="../js/script.js"></script>
@@ -146,7 +172,7 @@
                     </div>
                     <div class="conB_content">
                         <h3>AU Project</h3>
-                        <p>안산대학교</p>
+                        <p>Tomcat + JSP + MySQL</p>
                     </div>
                 </div>
                 <div class="conB_small_container">
@@ -179,8 +205,10 @@
                         <i class="fas fa-plane icon"></i>
                     </div>
                     <div class="conB_content">
-                        <h3>Made with</h3>
-                        <p>Tomcat + JSP + MySQL</p>
+                        <h3>오늘의 날씨</h3>
+                        <p>현재 기온 : <span class="temp"></span> </p>
+                        <p>최저 기온 : <span class="temp-min"></span></p>
+                        <p>최고 기온 : <span class="temp-max"></span></p>
                     </div>
                 </div>
             </div>
